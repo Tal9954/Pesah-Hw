@@ -1,0 +1,13 @@
+[Unit]
+Description=My Custom Script
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /home/ubuntu/update_route53.sh
+RemainAfterExit=no
+Restart=no
+User=ubuntu
+
+[Install]
+WantedBy=multi-user.target          

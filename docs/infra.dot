@@ -1,0 +1,42 @@
+digraph INFRA {
+  node [ color = "black", fillcolor = "#E6E6E6", height =1, style = "filled,bold,rounded", fontname = "Arial" ];
+  "OpenVPN Server" [ label = "OpenVPN Server
+(AWS::EC2::Instance)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "OpenVPN Security Group" [ label = "OpenVPN Security Group
+(AWS::EC2::SecurityGroup)", shape =rectangle ];
+  "Route53 DNS Record" [ label = "Route53 DNS Record
+(AWS::Route53::RecordSet)", shape =rectangle ];
+  "Nginx Web Server" [ label = "Nginx Web Server
+(AWS::EC2::Instance)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "Nginx Security Group" [ label = "Nginx Security Group
+(AWS::EC2::SecurityGroup)", shape =rectangle ];
+  "Artifactory Server" [ label = "Artifactory Server
+(AWS::EC2::Instance)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "Artifactory Security Group" [ label = "Artifactory Security Group
+(AWS::EC2::SecurityGroup)", shape =rectangle ];
+  "Artifactory Database" [ label = "Artifactory Database
+(AWS::RDS::DBInstance)", shape =cylinder, fillcolor = "#FFCFB3" ];
+  "Artifactory Database Security Group" [ label = "Artifactory Database Security Group
+(AWS::EC2::SecurityGroup)", shape =rectangle ];
+  "Jenkins Server" [ label = "Jenkins Server
+(AWS::EC2::Instance)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "Jenkins Security Group" [ label = "Jenkins Security Group
+(AWS::EC2::SecurityGroup)", shape =rectangle ];
+  "Nexus Server" [ label = "Nexus Server
+(AWS::EC2::Instance)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "Nexus Security Group" [ label = "Nexus Security Group
+(AWS::EC2::SecurityGroup)", shape =rectangle ];
+  "Vault Server" [ label = "Vault Server
+(AWS::EC2::Instance)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "Vault Security Group" [ label = "Vault Security Group
+(AWS::EC2::SecurityGroup)", shape =rectangle ];
+  "OpenVPN Server" -> "OpenVPN Security Group";
+  "Route53 DNS Record" -> "OpenVPN Server";
+  "Nginx Web Server" -> "Nginx Security Group";
+  "Artifactory Server" -> "Artifactory Security Group";
+  "Artifactory Server" -> "Artifactory Database";
+  "Artifactory Database" -> "Artifactory Database Security Group";
+  "Jenkins Server" -> "Jenkins Security Group";
+  "Nexus Server" -> "Nexus Security Group";
+  "Vault Server" -> "Vault Security Group";
+}

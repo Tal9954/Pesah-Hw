@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /usr/bin/docker:/usr/bin/docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/ta/.ssh:/var/jenkins_home/.ssh
+      - /home/ta/.docker/config.json:/var/jenkins_home/.docker/config.json
+
+  regi:
+    image: sonatype/nexus3
+    container_name: nexus
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+      - "8083:8083"
+    volumes:
+      - /home/ta/nexus-data:/nexus-data
+      - /opt/sonatype-work/nexus3/ssl:/opt/sonatype-work/nexus3/etc/ssl
+
+
+  vault:
+    image: hashicorp/vault
+    container_name: vault-new
+    environment:
+     VAULT_ADDR: "http://localhost:8200"
+     VAULT_API_ADDR: "http://localhost:8200"
+     VAULT_ADDRESS: "http://localhost:8200"
+
+    ports:
+      - "8200:8200"
+      - "8201:8201"
+    restart: always
+    volumes:
+      - /home/ta/vault/logs:/vault/logs/:rw
+      - /home/ta/vault/config/:/vault/config/:rw
+      - /home/ta/vault/data:/vault/data/:rw
+      - /home/ta/vault/certs:/certs/:rw
+      - /home/ta/vault/file:/vault/file/:rw
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config /vault/config/config.hcl
+
+volumes:
+  jenkins_home:
+

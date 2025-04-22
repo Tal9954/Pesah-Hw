@@ -1,0 +1,18 @@
+---
+- name: Download MySQL driver
+  tags: drivers
+  unarchive:
+    src: https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.19.zip
+    dest: "{{ artifactory_home }}/var/bootstrap/artifactory/tomcat/lib/"
+    mode: u+r,g+r,o+r
+  when: artifactory_database_type == 'mysql'
+
+- name: Install MySQL driver
+  tags: drivers
+  copy:
+    src: "{{ artifactory_home }}/var/bootstrap/artifactory/tomcat/lib/mysql-connector-java-8.0.19/mysql-connector-java-8.0.19.jar"
+    dest: "{{ artifactory_home }}/var/bootstrap/artifactory/tomcat/lib/"
+    mode: u+r,g+r,o+r
+  when: artifactory_database_type == 'mysql'
+
+

@@ -1,0 +1,4 @@
+---
+# vars file for nginx
+nginx_port: 6789
+name: default

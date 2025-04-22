@@ -1,0 +1,25 @@
+---
+- name: Deploy update_route53.sh script and service as systemd service
+  hosts: server1
+  become: yes
+
+  tasks:
+    - name: Copy update_route53.sh script to the EC2 instance
+      copy:
+        src: files/update_route53.sh
+        dest: /home/ubuntu/update_route53.sh
+        mode: '0755'
+
+    - name: Copy update_route53.service file to the EC2 instance
+      copy:
+        src: files/update_route53.service
+        dest: /etc/systemd/system/update_route53.service
+        mode: '0644'
+
+    - name: Enable and start the update_route53 service
+      systemd:
+        name: update_route53.service
+        enabled: yes
+        state: started
+        daemon_reload: yes
+

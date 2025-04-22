@@ -1,0 +1,7 @@
+---
+- name: OpenVPN setup
+  hosts: server1
+  become: true
+  roles:
+    - role: openvpn
+

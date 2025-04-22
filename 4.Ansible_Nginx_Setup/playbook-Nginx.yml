@@ -1,0 +1,46 @@
+---
+- name: Install and configure nginx with port from Consul
+  hosts: server1
+  become: yes
+  vars_files:
+    - nginx/vars/main.yml
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Replace default nginx listen port with 6789
+      replace:
+        path: /etc/nginx/sites-available/default
+        regexp: 'listen\s+80 default_server;'
+        replace: "listen {{ nginx_port }}"
+      notify: Restart nginx
+
+    - name: Ensure no other ports are configured (removes port 80 and 443 references)
+      lineinfile:
+        path: /etc/nginx/sites-available/default
+        regexp: '^listen\s+443|listen\s+\[::\]:443|listen\s+80|listen\s+\[::\]:80'
+        state: absent
+      notify: Restart nginx
+
+    - name: Download custom HTML page from Sheldon Brown
+      get_url:
+        url: https://www.sheldonbrown.com/web_sample1.html
+        dest: /var/www/html/index.html
+        mode: '0644'
+
+    - name: Replace the top of the page with a greeting
+      replace:
+        path: /var/www/html/index.html
+        regexp: '<H1>A Simple Sample Web Page</H1>'
+        replace: '<H1>Hello {{ name }}!</H1>'
+
+  handlers:
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+

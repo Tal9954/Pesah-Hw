@@ -1,0 +1,6 @@
+all:
+  hosts:
+    server1:
+      ansible_host: ansible-tal.aws.cts.care
+      ansible_user: ubuntu
+
