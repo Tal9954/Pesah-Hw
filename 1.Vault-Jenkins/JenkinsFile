@@ -35,7 +35,7 @@ pipeline {
             steps {
                 withEnv(["AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY", "AWS_DEFAULT_REGION=il-central-1"]) {
                     script {
-                        // Corrected query with proper escaping for Groovy string interpolation
+                       
                         sh """
                             aws ec2 describe-instances --region il-central-1 --query "Reservations[].Instances[].[InstanceId,Tags[?Key=='Name'].Value|[0]]" --output table
                         """
