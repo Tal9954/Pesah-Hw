@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        VAULT_ADDR = 'http://vault-new:8200' // Replace with your Vault server address
-        SECRET_PATH = 'v1/secret/aws/data/aws/jenkins' // Replace with your actual secret path in Vault
+        VAULT_ADDR = 'http://vault-new:8200' 
+        SECRET_PATH = 'v1/secret/aws/data/aws/jenkins' 
     }
 
     stages {
@@ -11,21 +11,19 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'vault-token', variable: 'VAULT_TOKEN')]) {
                     script {
-                        // Fetch the AWS keys from Vault using the Vault token
+                        
                         def apiUrl = "${VAULT_ADDR}/${SECRET_PATH}"
                         def response = sh(script: """
                             curl -s --header "X-Vault-Token: \$VAULT_TOKEN" --request GET "${apiUrl}"
                         """, returnStdout: true).trim()
 
-                        // Parse the JSON response from Vault
+                        
                         def jsonSlurper = new groovy.json.JsonSlurper()
                         def jsonResponse = jsonSlurper.parseText(response)
 
-                        // Extract the AWS credentials from the response
                         def awsAccessKeyId = jsonResponse.data.data.access_key_id
                         def awsSecretAccessKey = jsonResponse.data.data.secret_access_key
 
-                        // Store them in environment variables for the next stage
                         env.AWS_ACCESS_KEY_ID = awsAccessKeyId
                         env.AWS_SECRET_ACCESS_KEY = awsSecretAccessKey
                     }
