@@ -53,7 +53,6 @@ A concise collection of automation scripts for essential DevOps infrastructure c
 ### 1. Vault-Jenkins Integration
 - HashiCorp Vault for secrets management
 - Jenkins pipeline with AWS credential retrieval from Vault
-- Secure CI/CD credential handling
 
 ### 2. OpenVPN Server Automation
 - Ansible playbooks for OpenVPN deployment
@@ -73,7 +72,7 @@ A concise collection of automation scripts for essential DevOps infrastructure c
 ### 5. Artifactory Setup
 - JFrog Artifactory OSS deployment
 - Repository structure configuration
-- CI/CD pipeline integration
+
 
 ## Setup Requirements
 - Ansible 2.9+
